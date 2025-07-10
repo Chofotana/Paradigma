@@ -1,0 +1,53 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\JoaoFontana\\Desktop\\DevPleno\\Paradigma\\Tarefa2\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{99CDE558-0082-4E6C-B057-E5D73754EC06}|Tarefa2.Aplicacao\\Tarefa2.Aplicacao.csproj|c:\\users\\joaofontana\\desktop\\devpleno\\paradigma\\tarefa2\\tarefa2.aplicacao\\controladorgalho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99CDE558-0082-4E6C-B057-E5D73754EC06}|Tarefa2.Aplicacao\\Tarefa2.Aplicacao.csproj|solutionrelative:tarefa2.aplicacao\\controladorgalho.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05F2CCC8-0403-4464-8DF6-E8ED0969B1D3}|Tarefa2.Console\\Tarefa2.Console.csproj|c:\\users\\joaofontana\\desktop\\devpleno\\paradigma\\tarefa2\\tarefa2.console\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{05F2CCC8-0403-4464-8DF6-E8ED0969B1D3}|Tarefa2.Console\\Tarefa2.Console.csproj|solutionrelative:tarefa2.console\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\JoaoFontana\\Desktop\\DevPleno\\Paradigma\\Tarefa2\\Tarefa2.Console\\Program.cs",
+              "RelativeDocumentMoniker": "Tarefa2.Console\\Program.cs",
+              "ToolTip": "C:\\Users\\JoaoFontana\\Desktop\\DevPleno\\Paradigma\\Tarefa2\\Tarefa2.Console\\Program.cs",
+              "RelativeToolTip": "Tarefa2.Console\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-10T00:18:20.93Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ControladorGalho.cs",
+              "DocumentMoniker": "C:\\Users\\JoaoFontana\\Desktop\\DevPleno\\Paradigma\\Tarefa2\\Tarefa2.Aplicacao\\ControladorGalho.cs",
+              "RelativeDocumentMoniker": "Tarefa2.Aplicacao\\ControladorGalho.cs",
+              "ToolTip": "C:\\Users\\JoaoFontana\\Desktop\\DevPleno\\Paradigma\\Tarefa2\\Tarefa2.Aplicacao\\ControladorGalho.cs",
+              "RelativeToolTip": "Tarefa2.Aplicacao\\ControladorGalho.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAowAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T23:49:39.645Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

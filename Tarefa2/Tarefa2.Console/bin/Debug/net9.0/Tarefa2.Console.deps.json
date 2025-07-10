@@ -1,0 +1,55 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "Tarefa2.Console/1.0.0": {
+        "dependencies": {
+          "Tarefa2.Aplicacao": "1.0.0"
+        },
+        "runtime": {
+          "Tarefa2.Console.dll": {}
+        }
+      },
+      "Tarefa2.Aplicacao/1.0.0": {
+        "dependencies": {
+          "Tarefa2.Dominio": "1.0.0"
+        },
+        "runtime": {
+          "Tarefa2.Aplicacao.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Tarefa2.Dominio/1.0.0": {
+        "runtime": {
+          "Tarefa2.Dominio.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Tarefa2.Console/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Tarefa2.Aplicacao/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Tarefa2.Dominio/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
