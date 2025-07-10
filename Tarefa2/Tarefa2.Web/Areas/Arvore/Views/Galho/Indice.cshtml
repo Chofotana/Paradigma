@@ -1,0 +1,62 @@
+﻿@using Tarefa2.Dominio.Entidades;
+@using System.Linq;
+
+@model List<Galho>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="bg-info-subtle p-4 d-flex justify-content-between">
+    <div class="w-50">
+        <h3>Informações da Árvore</h3>
+        <p>Array de entrada: @ViewBag.Array</p>
+        <p>Raiz: @ViewBag.Raiz</p>
+        <p>Galhos da esquerda: @ViewBag.GalhosEsquerda</p>
+        <p>Galhos da direita: @ViewBag.GalhosDireita</p>
+    </div>
+    <div class="w-50 d-flex flex-column justify-content-evenly">
+        <div class="d-flex justify-content-evenly">
+            <div class="d-flex">
+                <input id="input-adicionar-numero" type="text" />
+                <button id="button-adicionar-numero" type="button">Adicionar Número</button>
+            </div>
+            <button id="button-remover-numero" type="button">Remover Último Número</button>
+        </div>
+        <div class="d-flex justify-content-evenly">
+            <form id="form-cenario1" asp-action="Indice" asp-controller="Galho" asp-area="Arvore" method="post">
+                <input type="text" name="array" value="3, 2, 1, 6, 0, 5" hidden />
+                <button type="submit">Cenário 1</button>
+            </form>
+
+            <form id="form-cenario2" asp-action="Indice" asp-controller="Galho" asp-area="Arvore" method="post">
+                <input type="text" name="array" value="7, 5, 13, 9, 1, 6, 4" hidden />
+                <button type="submit">Cenário 2</button>
+            </form>
+
+            <form id="form-array-entrada" asp-action="Indice" asp-controller="Galho" asp-area="Arvore" method="post">
+                <input type="text" id="input-array-entrada" name="array" value="@ViewBag.Array" hidden />
+                <button type="submit">Gerar Árvore do Array</button>
+            </form>
+        </div>
+    </div>
+</div>
+<br />
+
+@if (Model.Any())
+{
+    <div class="w-100 d-flex justify-content-center">
+        <table>
+            <thead>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        Nenhum galho foi adicionado ainda!
+    </div>
+}

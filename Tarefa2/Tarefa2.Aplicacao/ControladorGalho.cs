@@ -10,6 +10,9 @@ namespace Tarefa2.Aplicacao
     {
         public ControladorGalho() { }
 
+        public List<Galho> ObterGalhos(string valores) =>
+            ObterGalhos(valores.Split(",").Select(valor => Convert.ToInt32(valor.Trim())));
+
         public List<Galho> ObterGalhos(IEnumerable<int> valores)
         {
             if (!valores.Any())
@@ -54,7 +57,7 @@ namespace Tarefa2.Aplicacao
             {
                 int altura = 1;
                 //'OrderByDescending' para ordenar do galho de maior valor até o menor
-                foreach (var galho in galhosLado.OrderByDescending(galho => galho.Valor)) 
+                foreach (var galho in galhosLado.OrderByDescending(galho => galho.Valor))
                     galho.Altura = altura++;
             }
         }
