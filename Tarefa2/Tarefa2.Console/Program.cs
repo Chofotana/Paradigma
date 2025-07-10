@@ -46,15 +46,12 @@ namespace Tarefa2.Console
             System.Console.WriteLine($"Galhos da direita: {string.Join(", ", galhos.Where(galho => galho.Lado.Equals(LadoEnum.Direita)).Select(galho => galho.Valor))}");
 
             var maiorAlturaEsquerda = ObterMaiorAltura(galhos.Where(galho => galho.Lado.Equals(LadoEnum.Esquerda))) * 2;
-            var maiorAlturaDireita = ObterMaiorAltura(galhos.Where(galho => galho.Lado.Equals(LadoEnum.Direita))) * 2;
 
-            var posicaoInicial = maiorAlturaEsquerda;
-            int meio = 1;
             foreach (var grupoAltura in galhos.GroupBy(galho => galho.Altura).OrderBy(grupo => grupo.Key))
             {
                 //Raiz
                 if (grupoAltura.Key == 0)
-                    EscreverLinha(grupoAltura.First().Valor.ToString(), posicaoInicial);
+                    EscreverLinha(grupoAltura.First().Valor.ToString(), maiorAlturaEsquerda);
                 //Ramificações
                 else
                 {
@@ -63,27 +60,21 @@ namespace Tarefa2.Console
 
                     if (galhoEsquerda is not null && galhoDireita is not null)
                     {
-                        var alturaEsquerda = maiorAlturaEsquerda - (grupoAltura.Key * 2 - 1);
+                        Escrever("/" , maiorAlturaEsquerda - (grupoAltura.Key * 2 - 1));
+                        EscreverLinha("\\" , (grupoAltura.Key - 1 + 2) * grupoAltura.Key - 1);
 
-                        Escrever("/" , alturaEsquerda--);
-                        EscreverLinha("\\" , meio);
-                        meio += 2;
-
-                        Escrever(galhoEsquerda.Valor.ToString(), alturaEsquerda);
-                        EscreverLinha(galhoDireita.Valor.ToString(), meio);
-                        meio += 2;
+                        Escrever(galhoEsquerda.Valor.ToString(), maiorAlturaEsquerda - (grupoAltura.Key * 2 - 1) - 1);
+                        EscreverLinha(galhoDireita.Valor.ToString(), (grupoAltura.Key - 1 + 2) * grupoAltura.Key + 1);
                     }
                     else if (galhoEsquerda is not null)
                     {
-                        var alturaEsquerda = maiorAlturaEsquerda - (grupoAltura.Key * 2 - 1);
-
-                        EscreverLinha("/", alturaEsquerda--);
-                        EscreverLinha(galhoEsquerda.Valor.ToString(), alturaEsquerda);
+                        EscreverLinha("/", maiorAlturaEsquerda - (grupoAltura.Key * 2 - 1));
+                        EscreverLinha(galhoEsquerda.Valor.ToString(), maiorAlturaEsquerda - (grupoAltura.Key * 2 - 1) - 1);
                     }
                     else if (galhoDireita is not null)
                     {
-                        EscreverLinha("\\", posicaoInicial + (grupoAltura.Key * 2 - 1));
-                        EscreverLinha(galhoDireita.Valor.ToString(), posicaoInicial + (grupoAltura.Key * 2));
+                        EscreverLinha("\\", maiorAlturaEsquerda + (grupoAltura.Key * 2 - 1));
+                        EscreverLinha(galhoDireita.Valor.ToString(), maiorAlturaEsquerda + (grupoAltura.Key * 2));
                     }
                 }
             }
