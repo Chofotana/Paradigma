@@ -11,7 +11,7 @@ namespace Tarefa2.Aplicacao
         public ControladorGalho() { }
 
         public List<Galho> ObterGalhos(string valores) =>
-            ObterGalhos(valores.Split(",").Select(valor => Convert.ToInt32(valor.Trim())));
+            ObterGalhos(valores.Split(",").Where(valor => !string.IsNullOrEmpty(valor)).Select(valor => Convert.ToInt32(valor.Trim())));
 
         public List<Galho> ObterGalhos(IEnumerable<int> valores)
         {

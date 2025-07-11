@@ -11,7 +11,10 @@
 <div class="bg-info-subtle p-4 d-flex justify-content-between" style="border-radius: 5px">
     <div class="w-25">
         <h3>Informações da Árvore</h3>
-        <p>Array de entrada: @ViewBag.Array</p>
+        <div class="d-flex justify-content-start" style="margin-bottom:1rem">
+            <p class="m-0">Array de entrada: </p>
+            <input id="input-array-entrada" value="@ViewBag.Array" disabled class="bg-transparent border-0" />
+        </div>
         <p>Raiz: @ViewBag.Raiz</p>
         <p>Galhos da esquerda: @ViewBag.GalhosEsquerda</p>
         <p>Galhos da direita: @ViewBag.GalhosDireita</p>
@@ -19,17 +22,17 @@
     <div class="w-75 d-flex flex-column justify-content-evenly">
         <div class="d-flex justify-content-evenly">
             <div class="input-group mb-3 w-50">
-                <input id="input-adicionar-numero" type="text" class="form-control" placeholder="Digite um número..." aria-label="Digite um número..." aria-describedby="button-adicionar-numero">
-                <button class="btn btn-success" type="button" id="button-adicionar-numero">Adicionar Número</button>
+                <input id="input-adicionar-numero" type="text" maxlength="8" class="form-control" placeholder="Digite um número..." aria-label="Digite um número..." aria-describedby="button-adicionar-numero">
+                <button class="btn btn-success" type="button" id="button-adicionar-numero" onclick="AdicionarNumero()">Adicionar Número</button>
             </div>
             <div class="w-25">
-                <button id="button-remover-numero" type="button" class="btn btn-danger">Remover Número</button>
+                <button id="button-remover-numero" type="button" class="btn btn-danger" onclick="RemoverNumero()">Remover Número</button>
             </div>
         </div>
         <div class="d-flex justify-content-evenly">
             <form id="form-array-entrada" asp-action="Indice" asp-controller="Galho" asp-area="Arvore" method="post">
-                <input type="text" id="input-array-entrada" name="array" value="@ViewBag.Array" hidden />
-                <button type="submit" class="btn btn-secondary">Gerar Árvore do Array</button>
+                <input type="text" id="input-array-entrada-submit" name="array" value="@ViewBag.Array" hidden />
+                <button id="button-array-entrada" type="submit" class="btn btn-secondary" onclick="ObterArray()">Gerar Árvore do Array</button>
             </form>
 
             <form id="form-cenario1" asp-action="Indice" asp-controller="Galho" asp-area="Arvore" method="post">
@@ -46,10 +49,10 @@
 </div>
 <br />
 
-@if (Model.Any())
+@if (Model is not null && Model.Count != 0)
 {
     var quantidadeColunas = Model.Count() * 2 - 1;
-    var maiorAlturaEsquerda = Model.Where(galho => galho.Lado == LadoEnum.Esquerda).MaxBy(g => g.Altura).Altura * 2;
+    var maiorAlturaEsquerda = Model.Any(galho => galho.Lado == LadoEnum.Esquerda) ? Model.Where(galho => galho.Lado == LadoEnum.Esquerda).MaxBy(g => g.Altura).Altura * 2 : 0;
 
     <div class="w-100 d-flex justify-content-center">
         <table>
@@ -173,8 +176,8 @@
                         }
                         else if (galhoDireita is not null)
                         {
-                             quantidadePular = maiorAlturaEsquerda + (grupo.Key * 2);
-                             
+                            quantidadePular = maiorAlturaEsquerda + (grupo.Key * 2);
+
                             <tr>
                                 <td colspan="@quantidadePular"></td>
                                 <td><img src="~/src/linha_diagonal.png" width="50px" height="50px" /></td>
@@ -182,7 +185,7 @@
                                 {
                                     <td colspan="@(quantidadeColunas - 1 - quantidadePular)"></td>
                                 }
-                               
+
                             </tr>
                             quantidadePular = maiorAlturaEsquerda + (grupo.Key * 2) + 1;
 
@@ -207,3 +210,48 @@ else
         Nenhum galho foi adicionado ainda!
     </div>
 }
+
+<script>
+    document.getElementById('input-adicionar-numero').addEventListener('input', function() {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+
+    function AdicionarNumero(){
+        var valor = document.getElementById('input-adicionar-numero').value;
+        if(valor != "")
+        {
+            var elementoInputArrayEntrada = document.getElementById('input-array-entrada');
+
+            if(elementoInputArrayEntrada.value == "")
+            {
+                elementoInputArrayEntrada.value = valor;
+            }
+            else
+            {
+                var array = elementoInputArrayEntrada.value.split(", ");
+                if(!array.includes(valor))
+                {
+                    array.push(valor);
+                }
+                elementoInputArrayEntrada.value = array.join(", ");
+            }
+        }
+    }
+
+    function ObterArray(){
+        let elementoInputArrayEntrada = document.getElementById('input-array-entrada');
+        let elementoInputArrayEntradaSubmit = document.getElementById('input-array-entrada-submit');
+        elementoInputArrayEntradaSubmit.value = elementoInputArrayEntrada.value;
+    }
+
+    function RemoverNumero(){
+        let elementoInputArrayEntrada = document.getElementById('input-array-entrada');
+        if(elementoInputArrayEntrada.value != ""){
+            let array = elementoInputArrayEntrada.value.split(", ");
+            array.pop();
+            elementoInputArrayEntrada.value = array.join(", ");
+        }
+    }
+
+</script>

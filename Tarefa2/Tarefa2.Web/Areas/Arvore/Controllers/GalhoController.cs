@@ -14,18 +14,15 @@ namespace Tarefa2.Web.Areas.Arvore.Controllers
         private ControladorGalho ControladorGalho { get; set; }
 
         [HttpGet]
-        public IActionResult Indice()
-        {
-            ViewBag.Array = string.Empty;
-            ViewBag.Raiz = "-";
-            ViewBag.GalhosEsquerda = "-";
-            ViewBag.GalhosDireita = "-";
-            return View(new List<Galho>());
-        }
+        public IActionResult Indice() =>
+            View();
 
         [HttpPost]
         public IActionResult Indice(string array)
         {
+            if (string.IsNullOrEmpty(array))
+                return View();
+
             var galhos = ControladorGalho.ObterGalhos(array);
 
             ViewBag.Array = array;
@@ -35,9 +32,9 @@ namespace Tarefa2.Web.Areas.Arvore.Controllers
 
             return View(galhos);
 
-            string ObterGalhosLado(LadoEnum lado)=>
-                galhos.Any(galho => galho.Lado.Equals(lado)) 
-                ? string.Join(", ", galhos.Where(galho => galho.Lado.Equals(lado)).Select(galho => galho.Valor).OrderByDescending(valor => valor)) 
+            string ObterGalhosLado(LadoEnum lado) =>
+                galhos.Any(galho => galho.Lado.Equals(lado))
+                ? string.Join(", ", galhos.Where(galho => galho.Lado.Equals(lado)).Select(galho => galho.Valor).OrderByDescending(valor => valor))
                 : "-";
         }
     }
