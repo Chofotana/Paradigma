@@ -19,17 +19,17 @@
         <p>Galhos da esquerda: @ViewBag.GalhosEsquerda</p>
         <p>Galhos da direita: @ViewBag.GalhosDireita</p>
     </div>
-    <div class="w-75 d-flex flex-column justify-content-evenly">
-        <div class="d-flex justify-content-evenly">
-            <div class="input-group mb-3 w-50">
+    <div class="w-75 d-flex flex-column justify-content-evenly align-items-center">
+        <div class="d-flex justify-content-between w-75">
+            <div class="input-group mb-3 w-75">
                 <input id="input-adicionar-numero" type="text" maxlength="8" class="form-control" placeholder="Digite um número..." aria-label="Digite um número..." aria-describedby="button-adicionar-numero">
                 <button class="btn btn-success" type="button" id="button-adicionar-numero" onclick="AdicionarNumero()">Adicionar Número</button>
             </div>
-            <div class="w-25">
+            <div>
                 <button id="button-remover-numero" type="button" class="btn btn-danger" onclick="RemoverNumero()">Remover Número</button>
             </div>
         </div>
-        <div class="d-flex justify-content-evenly">
+        <div class="d-flex justify-content-between w-75">
             <form id="form-array-entrada" asp-action="Indice" asp-controller="Galho" asp-area="Arvore" method="post">
                 <input type="text" id="input-array-entrada-submit" name="array" value="@ViewBag.Array" hidden />
                 <button id="button-array-entrada" type="submit" class="btn btn-secondary" onclick="ObterArray()">Gerar Árvore do Array</button>
