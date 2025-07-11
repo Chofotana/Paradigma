@@ -1,5 +1,6 @@
 ﻿@using Tarefa2.Dominio.Entidades;
 @using System.Linq;
+@using Tarefa2.Dominio.Enums
 
 @model List<Galho>
 
@@ -7,36 +8,38 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="bg-info-subtle p-4 d-flex justify-content-between">
-    <div class="w-50">
+<div class="bg-info-subtle p-4 d-flex justify-content-between" style="border-radius: 5px">
+    <div class="w-25">
         <h3>Informações da Árvore</h3>
         <p>Array de entrada: @ViewBag.Array</p>
         <p>Raiz: @ViewBag.Raiz</p>
         <p>Galhos da esquerda: @ViewBag.GalhosEsquerda</p>
         <p>Galhos da direita: @ViewBag.GalhosDireita</p>
     </div>
-    <div class="w-50 d-flex flex-column justify-content-evenly">
+    <div class="w-75 d-flex flex-column justify-content-evenly">
         <div class="d-flex justify-content-evenly">
-            <div class="d-flex">
-                <input id="input-adicionar-numero" type="text" />
-                <button id="button-adicionar-numero" type="button">Adicionar Número</button>
+            <div class="input-group mb-3 w-50">
+                <input id="input-adicionar-numero" type="text" class="form-control" placeholder="Digite um número..." aria-label="Digite um número..." aria-describedby="button-adicionar-numero">
+                <button class="btn btn-success" type="button" id="button-adicionar-numero">Adicionar Número</button>
             </div>
-            <button id="button-remover-numero" type="button">Remover Último Número</button>
+            <div class="w-25">
+                <button id="button-remover-numero" type="button" class="btn btn-danger">Remover Número</button>
+            </div>
         </div>
         <div class="d-flex justify-content-evenly">
+            <form id="form-array-entrada" asp-action="Indice" asp-controller="Galho" asp-area="Arvore" method="post">
+                <input type="text" id="input-array-entrada" name="array" value="@ViewBag.Array" hidden />
+                <button type="submit" class="btn btn-secondary">Gerar Árvore do Array</button>
+            </form>
+
             <form id="form-cenario1" asp-action="Indice" asp-controller="Galho" asp-area="Arvore" method="post">
                 <input type="text" name="array" value="3, 2, 1, 6, 0, 5" hidden />
-                <button type="submit">Cenário 1</button>
+                <button type="submit" class="btn btn-light">Gerar Cenário 1</button>
             </form>
 
             <form id="form-cenario2" asp-action="Indice" asp-controller="Galho" asp-area="Arvore" method="post">
                 <input type="text" name="array" value="7, 5, 13, 9, 1, 6, 4" hidden />
-                <button type="submit">Cenário 2</button>
-            </form>
-
-            <form id="form-array-entrada" asp-action="Indice" asp-controller="Galho" asp-area="Arvore" method="post">
-                <input type="text" id="input-array-entrada" name="array" value="@ViewBag.Array" hidden />
-                <button type="submit">Gerar Árvore do Array</button>
+                <button type="submit" class="btn btn-light">Gerar Cenário 2</button>
             </form>
         </div>
     </div>
@@ -45,11 +48,155 @@
 
 @if (Model.Any())
 {
+    var quantidadeColunas = Model.Count() * 2 - 1;
+    var maiorAlturaEsquerda = Model.Where(galho => galho.Lado == LadoEnum.Esquerda).MaxBy(g => g.Altura).Altura * 2;
+
     <div class="w-100 d-flex justify-content-center">
         <table>
             <thead>
+                <tr>
+                    <th colspan="@quantidadeColunas">Árvore Gerada</th>
+                </tr>
             </thead>
             <tbody>
+                @foreach (var grupo in Model.GroupBy(galho => galho.Altura).OrderBy(grupo => grupo.Key))
+                {
+                    int quantidadePulada = 0;
+
+                    if (grupo.Key == 0)
+                    {
+                        int quantidadePular = maiorAlturaEsquerda - grupo.Key;
+                        <tr>
+                            @if (quantidadePular > 0)
+                            {
+                                <td colspan="@quantidadePular"></td>
+                                quantidadePulada = quantidadePular + 1;
+                            }
+                            <td class="td-bolinha">@grupo.First().Valor</td>
+                            @if (quantidadeColunas - quantidadePulada > 0)
+                            {
+                                <td colspan="@(quantidadeColunas - quantidadePulada)"></td>
+                            }
+                        </tr>
+                    }
+                    else
+                    {
+                        int quantidadePular = maiorAlturaEsquerda - (grupo.Key * 2 - 1);
+
+                        var galhoEsquerda = grupo.FirstOrDefault(grupo => grupo.Lado.Equals(LadoEnum.Esquerda));
+                        var galhoDireita = grupo.FirstOrDefault(grupo => grupo.Lado.Equals(LadoEnum.Direita));
+
+                        var meio = 0;
+
+                        if (galhoEsquerda is not null && galhoDireita is not null)
+                        {
+                            <tr>
+                                @if (quantidadePular > 0)
+                                {
+                                    <td colspan="@quantidadePular"></td>
+                                    quantidadePulada = quantidadePular + 1;
+                                }
+                                <td><img src="~/src/linha_diagonal.png" width="50px" height="50px" class="esquerda" /></td>
+
+
+                                @{
+                                    meio = (grupo.Key + 1) * grupo.Key - 1;
+                                    quantidadePulada += meio + 1;
+                                }
+                                <td colspan="@meio"></td>
+
+                                <td><img src="~/src/linha_diagonal.png" width="50px" height="50px" /></td>
+
+                                @if (quantidadeColunas - quantidadePulada > 0)
+                                {
+                                    <td colspan="@(quantidadeColunas - quantidadePulada)"></td>
+                                }
+                            </tr>
+
+                            quantidadePular = maiorAlturaEsquerda - (grupo.Key * 2 - 1) - 1;
+                            quantidadePulada = 1;
+
+                            <tr>
+                                @if (quantidadePular > 0)
+                                {
+                                    <td colspan="@quantidadePular"></td>
+                                    quantidadePulada = quantidadePular + 1;
+                                }
+                                <td class="td-bolinha">@galhoEsquerda.Valor</td>
+
+
+                                @{
+                                    meio = (grupo.Key + 1) * grupo.Key + 1;
+                                    quantidadePulada += meio + 1;
+                                }
+                                <td colspan="@meio"></td>
+
+                                <td class="td-bolinha">@galhoDireita.Valor</td>
+
+                                @if (quantidadeColunas - quantidadePulada > 0)
+                                {
+                                    <td colspan="@(quantidadeColunas - quantidadePulada)"></td>
+                                }
+                            </tr>
+                        }
+                        else if (galhoEsquerda is not null)
+                        {
+                            <tr>
+                                @if (quantidadePular > 0)
+                                {
+                                    <td colspan="@quantidadePular"></td>
+                                    quantidadePulada = quantidadePular + 1;
+                                }
+                                <td><img src="~/src/linha_diagonal.png" width="50px" height="50px" class="esquerda" /></td>
+
+                                @if (quantidadeColunas - quantidadePulada > 0)
+                                {
+                                    <td colspan="@(quantidadeColunas - quantidadePulada)"></td>
+                                }
+                            </tr>
+
+                            quantidadePular = maiorAlturaEsquerda - (grupo.Key * 2 - 1) - 1;
+                            quantidadePulada = 1;
+                            <tr>
+                                @if (quantidadePular > 0)
+                                {
+                                    <td colspan="@quantidadePular"></td>
+                                    quantidadePulada = quantidadePular + 1;
+                                }
+                                <td class="td-bolinha">@galhoEsquerda.Valor</td>
+
+                                @if (quantidadeColunas - quantidadePulada > 0)
+                                {
+                                    <td colspan="@(quantidadeColunas - quantidadePulada)"></td>
+                                }
+                            </tr>
+                        }
+                        else if (galhoDireita is not null)
+                        {
+                             quantidadePular = maiorAlturaEsquerda + (grupo.Key * 2);
+                             
+                            <tr>
+                                <td colspan="@quantidadePular"></td>
+                                <td><img src="~/src/linha_diagonal.png" width="50px" height="50px" /></td>
+                                @if (quantidadeColunas - 1 - quantidadePular > 0)
+                                {
+                                    <td colspan="@(quantidadeColunas - 1 - quantidadePular)"></td>
+                                }
+                               
+                            </tr>
+                            quantidadePular = maiorAlturaEsquerda + (grupo.Key * 2) + 1;
+
+                            <tr>
+                                <td colspan="@quantidadePular"></td>
+                                <td class="td-bolinha">@galhoDireita.Valor</td>
+                                @if (quantidadeColunas - 1 - quantidadePular > 0)
+                                {
+                                    <td colspan="@(quantidadeColunas - 1 - quantidadePular)"></td>
+                                }
+                            </tr>
+                        }
+                    }
+                }
             </tbody>
         </table>
     </div>

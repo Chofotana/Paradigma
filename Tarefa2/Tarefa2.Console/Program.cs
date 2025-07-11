@@ -61,10 +61,10 @@ namespace Tarefa2.Console
                     if (galhoEsquerda is not null && galhoDireita is not null)
                     {
                         Escrever("/" , maiorAlturaEsquerda - (grupoAltura.Key * 2 - 1));
-                        EscreverLinha("\\" , (grupoAltura.Key - 1 + 2) * grupoAltura.Key - 1);
+                        EscreverLinha("\\" , (grupoAltura.Key + 1) * grupoAltura.Key - 1);
 
                         Escrever(galhoEsquerda.Valor.ToString(), maiorAlturaEsquerda - (grupoAltura.Key * 2 - 1) - 1);
-                        EscreverLinha(galhoDireita.Valor.ToString(), (grupoAltura.Key - 1 + 2) * grupoAltura.Key + 1);
+                        EscreverLinha(galhoDireita.Valor.ToString(), (grupoAltura.Key + 1) * grupoAltura.Key + 1);
                     }
                     else if (galhoEsquerda is not null)
                     {
